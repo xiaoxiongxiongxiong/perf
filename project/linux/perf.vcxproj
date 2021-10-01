@@ -48,42 +48,42 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'" Label="Configuration">
     <UseDebugLibraries>true</UseDebugLibraries>
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <RemoteRootDir>~/item</RemoteRootDir>
+    <RemoteRootDir>~/projects/item</RemoteRootDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'" Label="Configuration">
     <UseDebugLibraries>false</UseDebugLibraries>
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <RemoteRootDir>~/item</RemoteRootDir>
+    <RemoteRootDir>~/projects/item</RemoteRootDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'" Label="Configuration">
     <UseDebugLibraries>true</UseDebugLibraries>
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <RemoteRootDir>~/item</RemoteRootDir>
+    <RemoteRootDir>~/projects/item</RemoteRootDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'" Label="Configuration">
     <UseDebugLibraries>false</UseDebugLibraries>
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <RemoteRootDir>~/item</RemoteRootDir>
+    <RemoteRootDir>~/projects/item</RemoteRootDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <UseDebugLibraries>true</UseDebugLibraries>
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <RemoteRootDir>~/item</RemoteRootDir>
+    <RemoteRootDir>~/projects/item</RemoteRootDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <UseDebugLibraries>false</UseDebugLibraries>
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <RemoteRootDir>~/item</RemoteRootDir>
+    <RemoteRootDir>~/projects/item</RemoteRootDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'" Label="Configuration">
     <UseDebugLibraries>false</UseDebugLibraries>
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <RemoteRootDir>~/item</RemoteRootDir>
+    <RemoteRootDir>~/projects/item</RemoteRootDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'" Label="Configuration">
     <UseDebugLibraries>true</UseDebugLibraries>
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <RemoteRootDir>~/item</RemoteRootDir>
+    <RemoteRootDir>~/projects/item</RemoteRootDir>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings" />
@@ -139,10 +139,18 @@
     <RemoteOutRelDir>$(RemoteProjectRelDir)/lib/$(Platform)/$(Configuration)</RemoteOutRelDir>
   </PropertyGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\src\cpu\cpu.c" />
+    <ClCompile Include="..\..\src\disk\disk.c" />
+    <ClCompile Include="..\..\src\memory\memory.c" />
+    <ClCompile Include="..\..\src\network\network.c" />
     <ClCompile Include="..\..\src\perf.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\perf.h" />
+    <ClInclude Include="..\..\src\cpu\cpu.h" />
+    <ClInclude Include="..\..\src\disk\disk.h" />
+    <ClInclude Include="..\..\src\memory\memory.h" />
+    <ClInclude Include="..\..\src\network\network.h" />
   </ItemGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <ClCompile>
