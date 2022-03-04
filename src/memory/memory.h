@@ -4,10 +4,12 @@
 #include <stdio.h>
 #include <stdbool.h>
 
+#define OS_PERF_MEMORY_MODULE_NAME "memory"
+
 // 内存模块初始化
-bool os_perf_module_memory_init();
+bool os_memory_init();
 
 // 内存模块销毁
-void os_perf_module_memory_uninit();
+void os_perf_memory_uninit();
 
 #endif

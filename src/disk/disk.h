@@ -4,19 +4,16 @@
 #include <stdio.h>
 #include <stdbool.h>
 
+// 模块名称
+#define OS_PERF_DISK_MODULE_NAME "disk"
+
 typedef struct _os_disk_info_t os_disk_info_t;
 typedef struct _os_mount_info_t os_mount_info_t;
 
 // 磁盘模块初始化
-bool os_perf_module_disk_init();
+bool os_disk_init();
 
 // 磁盘模块销毁
-void os_perf_module_disk_uninit();
-
-// 获取磁盘信息
-bool os_perf_module_get_disk_info(os_disk_info_t * infos, size_t size);
-
-// 获取挂载信息
-bool os_perf_moudle_get_mount_info(os_mount_info_t * infos, size_t size);
+void os_disk_uninit();
 
 #endif

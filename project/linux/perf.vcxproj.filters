@@ -19,6 +19,9 @@
     <Filter Include="src\cpu">
       <UniqueIdentifier>{957f7b71-3d85-41fc-8a96-4d10ae9297e6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\utils">
+      <UniqueIdentifier>{8a7aeff0-14d2-4cd2-bc2c-3a4ff378a408}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\perf.c">
@@ -36,6 +39,12 @@
     <ClCompile Include="..\..\src\memory\memory.c">
       <Filter>src\memory</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\utils\os_utils.c">
+      <Filter>src\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\utils\os_linklist.c">
+      <Filter>src\utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\perf.h">
@@ -52,6 +61,12 @@
     </ClInclude>
     <ClInclude Include="..\..\src\cpu\cpu.h">
       <Filter>src\cpu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\utils\os_linklist.h">
+      <Filter>src\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\utils\os_utils.h">
+      <Filter>src\utils</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

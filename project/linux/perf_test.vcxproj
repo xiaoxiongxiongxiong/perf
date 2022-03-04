@@ -19,9 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{0e94c4dc-027c-4ed8-bccb-4df81f1bfd50}</ProjectGuid>
+    <ProjectGuid>{ccf890c9-522a-463e-916d-09daee80bd5f}</ProjectGuid>
     <Keyword>Linux</Keyword>
-    <RootNamespace>perf</RootNamespace>
+    <RootNamespace>perf_test</RootNamespace>
     <MinimumVisualStudioVersion>15.0</MinimumVisualStudioVersion>
     <ApplicationType>Linux</ApplicationType>
     <ApplicationTypeRevision>1.0</ApplicationTypeRevision>
@@ -31,27 +31,23 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'" Label="Configuration">
     <UseDebugLibraries>true</UseDebugLibraries>
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <RemoteRootDir>~/projects</RemoteRootDir>
-    <RemoteProjectRelDir>item/$(MSBuildProjectName)</RemoteProjectRelDir>
+    <RemoteProjectRelDir>item/$(SolutionName)</RemoteProjectRelDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'" Label="Configuration">
     <UseDebugLibraries>false</UseDebugLibraries>
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <RemoteRootDir>~/projects</RemoteRootDir>
-    <RemoteProjectRelDir>item/$(MSBuildProjectName)</RemoteProjectRelDir>
+    <RemoteProjectRelDir>item/$(SolutionName)</RemoteProjectRelDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <UseDebugLibraries>true</UseDebugLibraries>
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <RemoteRootDir>~/projects</RemoteRootDir>
-    <RemoteProjectRelDir>item/$(MSBuildProjectName)</RemoteProjectRelDir>
+    <RemoteProjectRelDir>item/$(SolutionName)</RemoteProjectRelDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <UseDebugLibraries>false</UseDebugLibraries>
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <RemoteRootDir>~/projects</RemoteRootDir>
-    <RemoteProjectRelDir>item/$(MSBuildProjectName)</RemoteProjectRelDir>
+    <RemoteProjectRelDir>item/$(SolutionName)</RemoteProjectRelDir>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings" />
@@ -59,82 +55,79 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>$(ProjectDir)..\..\lib\$(Platform)\$(Configuration)\</OutDir>
+    <OutDir>$(ProjectDir)..\..\bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)obj\$(ProjectName)\$(Platform)\$(Configuration)\</IntDir>
+    <RemoteDeployDir>$(RemoteRootDir)/$(SolutionName)</RemoteDeployDir>
     <RemoteIntRelDir>$(RemoteProjectRelDir)/obj/$(ProjectName)/$(Platform)/$(Configuration)</RemoteIntRelDir>
-    <RemoteOutRelDir>$(RemoteProjectRelDir)/lib/$(Platform)/$(Configuration)</RemoteOutRelDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>$(ProjectDir)..\..\lib\$(Platform)\$(Configuration)\</OutDir>
+    <OutDir>$(ProjectDir)..\..\bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)obj\$(ProjectName)\$(Platform)\$(Configuration)\</IntDir>
+    <RemoteDeployDir>$(RemoteRootDir)/$(SolutionName)</RemoteDeployDir>
     <RemoteIntRelDir>$(RemoteProjectRelDir)/obj/$(ProjectName)/$(Platform)/$(Configuration)</RemoteIntRelDir>
-    <RemoteOutRelDir>$(RemoteProjectRelDir)/lib/$(Platform)/$(Configuration)</RemoteOutRelDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
-    <OutDir>$(ProjectDir)..\..\lib\$(Platform)\$(Configuration)\</OutDir>
+    <OutDir>$(ProjectDir)..\..\bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)obj\$(ProjectName)\$(Platform)\$(Configuration)\</IntDir>
+    <RemoteDeployDir>$(RemoteRootDir)/$(SolutionName)</RemoteDeployDir>
     <RemoteIntRelDir>$(RemoteProjectRelDir)/obj/$(ProjectName)/$(Platform)/$(Configuration)</RemoteIntRelDir>
-    <RemoteOutRelDir>$(RemoteProjectRelDir)/lib/$(Platform)/$(Configuration)</RemoteOutRelDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
-    <OutDir>$(ProjectDir)..\..\lib\$(Platform)\$(Configuration)\</OutDir>
+    <OutDir>$(ProjectDir)..\..\bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)obj\$(ProjectName)\$(Platform)\$(Configuration)\</IntDir>
+    <RemoteDeployDir>$(RemoteRootDir)/$(SolutionName)</RemoteDeployDir>
     <RemoteIntRelDir>$(RemoteProjectRelDir)/obj/$(ProjectName)/$(Platform)/$(Configuration)</RemoteIntRelDir>
-    <RemoteOutRelDir>$(RemoteProjectRelDir)/lib/$(Platform)/$(Configuration)</RemoteOutRelDir>
   </PropertyGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\src\cpu\cpu.c" />
-    <ClCompile Include="..\..\src\disk\disk.c" />
-    <ClCompile Include="..\..\src\memory\memory.c" />
-    <ClCompile Include="..\..\src\network\network.c" />
-    <ClCompile Include="..\..\src\perf.c" />
-    <ClCompile Include="..\..\src\utils\os_linklist.c" />
-    <ClCompile Include="..\..\src\utils\os_utils.c" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\include\perf.h" />
-    <ClInclude Include="..\..\src\cpu\cpu.h" />
-    <ClInclude Include="..\..\src\disk\disk.h" />
-    <ClInclude Include="..\..\src\memory\memory.h" />
-    <ClInclude Include="..\..\src\network\network.h" />
-    <ClInclude Include="..\..\src\utils\os_linklist.h" />
-    <ClInclude Include="..\..\src\utils\os_utils.h" />
+    <ClCompile Include="..\..\test\main.cpp" />
   </ItemGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <AdditionalIncludeDirectories>$(ProjectDir)..\..\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <LibraryDependencies>pthread;%(LibraryDependencies)</LibraryDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\..\lib\$(Platform)\$(Configuration)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <LibraryDependencies>pthread;perf;%(LibraryDependencies)</LibraryDependencies>
     </Link>
+    <RemotePostBuildEvent>
+      <Command>cp -f /root/projects/item/$(SolutionName)/lib/$(Platform)/$(Configuration)/*.so /root/projects/item/$(SolutionName)/bin/$(Platform)/$(Configuration)/</Command>
+    </RemotePostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <AdditionalIncludeDirectories>$(ProjectDir)..\..\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <LibraryDependencies>pthread;%(LibraryDependencies)</LibraryDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\..\lib\$(Platform)\$(Configuration)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <LibraryDependencies>pthread;perf;%(LibraryDependencies)</LibraryDependencies>
     </Link>
+    <RemotePostBuildEvent>
+      <Command>cp -f /root/projects/item/$(SolutionName)/lib/$(Platform)/$(Configuration)/*.so /root/projects/item/$(SolutionName)/bin/$(Platform)/$(Configuration)/</Command>
+    </RemotePostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
     <ClCompile>
       <AdditionalIncludeDirectories>$(ProjectDir)..\..\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <LibraryDependencies>pthread;%(LibraryDependencies)</LibraryDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\..\lib\$(Platform)\$(Configuration)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <LibraryDependencies>pthread;perf;%(LibraryDependencies)</LibraryDependencies>
     </Link>
+    <RemotePostBuildEvent>
+      <Command>cp -f /root/projects/item/$(SolutionName)/lib/$(Platform)/$(Configuration)/*.so /root/projects/item/$(SolutionName)/bin/$(Platform)/$(Configuration)/</Command>
+    </RemotePostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
     <ClCompile>
       <AdditionalIncludeDirectories>$(ProjectDir)..\..\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <LibraryDependencies>pthread;%(LibraryDependencies)</LibraryDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\..\lib\$(Platform)\$(Configuration)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <LibraryDependencies>pthread;perf;%(LibraryDependencies)</LibraryDependencies>
     </Link>
+    <RemotePostBuildEvent>
+      <Command>cp -f /root/projects/item/$(SolutionName)/lib/$(Platform)/$(Configuration)/*.so /root/projects/item/$(SolutionName)/bin/$(Platform)/$(Configuration)/</Command>
+    </RemotePostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
