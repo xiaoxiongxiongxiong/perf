@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="include">
+      <UniqueIdentifier>{dfa88321-8869-4c44-a639-a936edf53fc3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{d1e106dd-3fd8-4768-b0aa-2cbd84deb58b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\disk">
+      <UniqueIdentifier>{8291f44d-c3e5-4cdc-8914-142341aa3c73}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\network">
+      <UniqueIdentifier>{9e107110-175b-44df-ae48-bf2bf67d4457}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\memory">
+      <UniqueIdentifier>{221c45f6-ca27-41fa-ba51-b2fb4fd85251}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\cpu">
+      <UniqueIdentifier>{957f7b71-3d85-41fc-8a96-4d10ae9297e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\utils">
+      <UniqueIdentifier>{8a7aeff0-14d2-4cd2-bc2c-3a4ff378a408}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\perf.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\cpu\cpu.c">
+      <Filter>src\cpu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\disk\disk.c">
+      <Filter>src\disk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\network\network.c">
+      <Filter>src\network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\memory\memory.c">
+      <Filter>src\memory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\utils\os_utils.c">
+      <Filter>src\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\utils\os_linklist.c">
+      <Filter>src\utils</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\include\perf.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\disk\disk.h">
+      <Filter>src\disk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\network\network.h">
+      <Filter>src\network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\memory\memory.h">
+      <Filter>src\memory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\cpu\cpu.h">
+      <Filter>src\cpu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\utils\os_linklist.h">
+      <Filter>src\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\utils\os_utils.h">
+      <Filter>src\utils</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
