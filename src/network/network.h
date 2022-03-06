@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-#define OS_PERF_NETWORK_MODULE_NAME "network"
+#define OS_NETWORK_MODULE_NAME "network"
 
 // 网络模块初始化
 bool os_network_init();

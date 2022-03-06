@@ -92,6 +92,7 @@
     <ClCompile Include="..\..\src\utils\os_utils.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\include\os_config.h" />
     <ClInclude Include="..\..\include\perf.h" />
     <ClInclude Include="..\..\src\cpu\cpu.h" />
     <ClInclude Include="..\..\src\disk\disk.h" />

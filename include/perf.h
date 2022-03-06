@@ -5,6 +5,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdarg.h>
+#include "os_config.h"
 
 #ifdef __cplusplus
 #define OS_PERF_API_BEGIN extern "C" {
@@ -24,30 +25,20 @@
 #define OS_PERF_API
 #endif
 
-OS_PERF_API_BEGIN
-
 #define OS_PERF_CPU           0b00000001u     // CPU
 #define OS_PERF_DISK          0b00000010u     // 磁盘
 #define OS_PERF_MEMORY        0b00000100u     // 内存
 #define OS_PERF_NETWORK       0b00001000u     // 网络
 #define OS_PERF_ALL           0b00001111u     // 所有
 
-#define OS_PERF_ERROR_MAX_LEN  256   // 错误信息最大长度
+OS_PERF_API_BEGIN
 
 /**
- * os_log_callback
- * @brief   日志回调
- * @param   flags       需要初始化的模块
- * @return  true--成功 false--失败
- */
-    typedef void (*os_log_callback)(const char * name, int level, const char * fmt, va_list vl);
-
-    /**
-    * os_perf_init
-    * @brief   性能模块初始化
-    * @param   flags       需要初始化的模块
-    * @return  true--成功 false--失败
-    */
+* os_perf_init
+* @brief   性能模块初始化
+* @param   flags       需要初始化的模块
+* @return  true--成功 false--失败
+*/
 OS_PERF_API bool os_perf_init(uint32_t flags);
 
 /**
@@ -55,12 +46,6 @@ OS_PERF_API bool os_perf_init(uint32_t flags);
 * @brief   性能模块销毁
 */
 OS_PERF_API void os_perf_uninit();
-
-/**
-* os_perf_set_cb
-* @brief   设置日志回调
-*/
-OS_PERF_API void os_perf_set_callback(os_log_callback cb);
 
 /*
 * os_perf_get_last_error

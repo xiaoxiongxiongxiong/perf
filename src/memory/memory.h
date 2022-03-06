@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-#define OS_PERF_MEMORY_MODULE_NAME "memory"
+#define OS_MEMORY_MODULE_NAME "memory"
 
 // 内存模块初始化
 bool os_memory_init();

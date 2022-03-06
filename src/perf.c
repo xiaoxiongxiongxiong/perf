@@ -1,4 +1,5 @@
 ﻿#include "perf.h"
+#include "utils/os_utils.h"
 #include "cpu/cpu.h"
 #include "disk/disk.h"
 #include "memory/memory.h"
@@ -10,7 +11,7 @@
 long g_sample_time = 1000;
 
 // 错误信息
-static char g_err_msg[OS_PERF_ERROR_MAX_LEN] = { 0 };
+static char g_err_msg[OS_PERF_ERROR_MAX] = { 0 };
 
 // 设置最后一次错误信息
 void os_perf_set_last_error(const char * fmt, ...);
@@ -56,21 +57,17 @@ void os_perf_uninit()
     os_network_uninit();
 }
 
-void os_perf_set_callback(os_log_callback cb)
-{
-}
-
 void os_perf_set_last_error(const char * fmt, ...)
 {
-    char buff[OS_PERF_ERROR_MAX_LEN] = { 0 };
+    char buff[OS_PERF_ERROR_MAX] = { 0 };
     va_list vl;
 
     va_start(vl, fmt);
-    vsnprintf(buff, OS_PERF_ERROR_MAX_LEN, fmt, vl);
+    vsnprintf(buff, OS_PERF_ERROR_MAX, fmt, vl);
     va_end(vl);
 
     //os_mutex_lock(g_perf_mtx);
-    memcpy(g_err_msg, buff, OS_PERF_ERROR_MAX_LEN);
+    memcpy(g_err_msg, buff, OS_PERF_ERROR_MAX);
     //os_mutex_unlock(g_perf_mtx);
 }
 

@@ -68,5 +68,8 @@
     <ClInclude Include="..\..\src\utils\os_utils.h">
       <Filter>src\utils</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\os_config.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-#define OS_PERF_CPU_MODULE_NAME "cpu"
+#define OS_CPU_MODULE_NAME "cpu"
 
 // 初始化CPU
 bool os_cpu_init();
