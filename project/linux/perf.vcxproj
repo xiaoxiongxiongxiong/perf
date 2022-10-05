@@ -87,55 +87,117 @@
     <ClCompile Include="..\..\src\disk\disk.c" />
     <ClCompile Include="..\..\src\memory\memory.c" />
     <ClCompile Include="..\..\src\network\network.c" />
-    <ClCompile Include="..\..\src\perf.c" />
-    <ClCompile Include="..\..\src\utils\os_linklist.c" />
-    <ClCompile Include="..\..\src\utils\os_utils.c" />
+    <ClCompile Include="..\..\src\network\route.c" />
+    <ClCompile Include="..\..\src\utils\err.c" />
+    <ClCompile Include="..\..\src\utils\linklist.c" />
+    <ClCompile Include="..\..\src\utils\utils.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\include\os_config.h" />
-    <ClInclude Include="..\..\include\perf.h" />
     <ClInclude Include="..\..\src\cpu\cpu.h" />
     <ClInclude Include="..\..\src\disk\disk.h" />
     <ClInclude Include="..\..\src\memory\memory.h" />
     <ClInclude Include="..\..\src\network\network.h" />
-    <ClInclude Include="..\..\src\utils\os_linklist.h" />
-    <ClInclude Include="..\..\src\utils\os_utils.h" />
+    <ClInclude Include="..\..\src\network\route.h" />
+    <ClInclude Include="..\..\src\utils\config.h" />
+    <ClInclude Include="..\..\src\utils\err.h" />
+    <ClInclude Include="..\..\src\utils\linklist.h" />
+    <ClInclude Include="..\..\src\utils\utils.h" />
   </ItemGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\..\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\src\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <LibraryDependencies>pthread;%(LibraryDependencies)</LibraryDependencies>
     </Link>
+    <RemotePostBuildEvent>
+      <Command>if [ ! -d $(RemoteProjectDir)include/utils ]; then mkdir -p $(RemoteProjectDir)include/utils; fi; if [ ! -d $(RemoteProjectDir)include/disk ]; then mkdir -p $(RemoteProjectDir)include/disk; fi;  if [ ! -d $(RemoteProjectDir)include/cpu ]; then mkdir -p $(RemoteProjectDir)include/cpu; fi;  if [ ! -d $(RemoteProjectDir)include/memory ]; then mkdir -p $(RemoteProjectDir)include/memory; fi; if [ ! -d $(RemoteProjectDir)include/network ]; then mkdir -p $(RemoteProjectDir)include/network; fi;  \cp -f $(RemoteProjectDir)src/utils/*.h $(RemoteProjectDir)include/utils; \cp -f $(RemoteProjectDir)src/disk/*.h $(RemoteProjectDir)include/disk; \cp -f $(RemoteProjectDir)src/cpu/*.h $(RemoteProjectDir)include/cpu; \cp -f $(RemoteProjectDir)src/network/*.h $(RemoteProjectDir)include/network; \cp -f $(RemoteProjectDir)src/memory/*.h $(RemoteProjectDir)include/memory;</Command>
+    </RemotePostBuildEvent>
+    <PostBuildEvent>
+      <Command>mkdir "$(ProjectDir)"..\..\include\utils
+mkdir "$(ProjectDir)"..\..\include\cpu
+mkdir "$(ProjectDir)"..\..\include\disk
+mkdir "$(ProjectDir)"..\..\include\memory
+mkdir "$(ProjectDir)"..\..\include\network
+copy $(ProjectDir)..\..\src\utils\*.h "$(ProjectDir)"..\..\include\utils
+copy $(ProjectDir)..\..\src\cpu\*.h "$(ProjectDir)"..\..\include\cpu
+copy $(ProjectDir)..\..\src\disk\*.h "$(ProjectDir)"..\..\include\disk
+copy $(ProjectDir)..\..\src\memory\*.h "$(ProjectDir)"..\..\include\memory
+copy $(ProjectDir)..\..\src\network\*.h "$(ProjectDir)"..\..\include\network</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\..\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\src\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <LibraryDependencies>pthread;%(LibraryDependencies)</LibraryDependencies>
     </Link>
+    <RemotePostBuildEvent>
+      <Command>if [ ! -d $(RemoteProjectDir)include/utils ]; then mkdir -p $(RemoteProjectDir)include/utils; fi; if [ ! -d $(RemoteProjectDir)include/disk ]; then mkdir -p $(RemoteProjectDir)include/disk; fi;  if [ ! -d $(RemoteProjectDir)include/cpu ]; then mkdir -p $(RemoteProjectDir)include/cpu; fi;  if [ ! -d $(RemoteProjectDir)include/memory ]; then mkdir -p $(RemoteProjectDir)include/memory; fi; if [ ! -d $(RemoteProjectDir)include/network ]; then mkdir -p $(RemoteProjectDir)include/network; fi;  \cp -f $(RemoteProjectDir)src/utils/*.h $(RemoteProjectDir)include/utils; \cp -f $(RemoteProjectDir)src/disk/*.h $(RemoteProjectDir)include/disk; \cp -f $(RemoteProjectDir)src/cpu/*.h $(RemoteProjectDir)include/cpu; \cp -f $(RemoteProjectDir)src/network/*.h $(RemoteProjectDir)include/network; \cp -f $(RemoteProjectDir)src/memory/*.h $(RemoteProjectDir)include/memory;</Command>
+    </RemotePostBuildEvent>
+    <PostBuildEvent>
+      <Command>mkdir "$(ProjectDir)"..\..\include\utils
+mkdir "$(ProjectDir)"..\..\include\cpu
+mkdir "$(ProjectDir)"..\..\include\disk
+mkdir "$(ProjectDir)"..\..\include\memory
+mkdir "$(ProjectDir)"..\..\include\network
+copy $(ProjectDir)..\..\src\utils\*.h "$(ProjectDir)"..\..\include\utils
+copy $(ProjectDir)..\..\src\cpu\*.h "$(ProjectDir)"..\..\include\cpu
+copy $(ProjectDir)..\..\src\disk\*.h "$(ProjectDir)"..\..\include\disk
+copy $(ProjectDir)..\..\src\memory\*.h "$(ProjectDir)"..\..\include\memory
+copy $(ProjectDir)..\..\src\network\*.h "$(ProjectDir)"..\..\include\network</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\..\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\src\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <LibraryDependencies>pthread;%(LibraryDependencies)</LibraryDependencies>
     </Link>
+    <RemotePostBuildEvent>
+      <Command>if [ ! -d $(RemoteProjectDir)include/utils ]; then mkdir -p $(RemoteProjectDir)include/utils; fi; if [ ! -d $(RemoteProjectDir)include/disk ]; then mkdir -p $(RemoteProjectDir)include/disk; fi;  if [ ! -d $(RemoteProjectDir)include/cpu ]; then mkdir -p $(RemoteProjectDir)include/cpu; fi;  if [ ! -d $(RemoteProjectDir)include/memory ]; then mkdir -p $(RemoteProjectDir)include/memory; fi; if [ ! -d $(RemoteProjectDir)include/network ]; then mkdir -p $(RemoteProjectDir)include/network; fi;  \cp -f $(RemoteProjectDir)src/utils/*.h $(RemoteProjectDir)include/utils; \cp -f $(RemoteProjectDir)src/disk/*.h $(RemoteProjectDir)include/disk; \cp -f $(RemoteProjectDir)src/cpu/*.h $(RemoteProjectDir)include/cpu; \cp -f $(RemoteProjectDir)src/network/*.h $(RemoteProjectDir)include/network; \cp -f $(RemoteProjectDir)src/memory/*.h $(RemoteProjectDir)include/memory;</Command>
+    </RemotePostBuildEvent>
+    <PostBuildEvent>
+      <Command>mkdir "$(ProjectDir)"..\..\include\utils
+mkdir "$(ProjectDir)"..\..\include\cpu
+mkdir "$(ProjectDir)"..\..\include\disk
+mkdir "$(ProjectDir)"..\..\include\memory
+mkdir "$(ProjectDir)"..\..\include\network
+copy $(ProjectDir)..\..\src\utils\*.h "$(ProjectDir)"..\..\include\utils
+copy $(ProjectDir)..\..\src\cpu\*.h "$(ProjectDir)"..\..\include\cpu
+copy $(ProjectDir)..\..\src\disk\*.h "$(ProjectDir)"..\..\include\disk
+copy $(ProjectDir)..\..\src\memory\*.h "$(ProjectDir)"..\..\include\memory
+copy $(ProjectDir)..\..\src\network\*.h "$(ProjectDir)"..\..\include\network</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\..\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\src\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <LibraryDependencies>pthread;%(LibraryDependencies)</LibraryDependencies>
     </Link>
+    <RemotePostBuildEvent>
+      <Command>if [ ! -d $(RemoteProjectDir)include/utils ]; then mkdir -p $(RemoteProjectDir)include/utils; fi; if [ ! -d $(RemoteProjectDir)include/disk ]; then mkdir -p $(RemoteProjectDir)include/disk; fi;  if [ ! -d $(RemoteProjectDir)include/cpu ]; then mkdir -p $(RemoteProjectDir)include/cpu; fi;  if [ ! -d $(RemoteProjectDir)include/memory ]; then mkdir -p $(RemoteProjectDir)include/memory; fi; if [ ! -d $(RemoteProjectDir)include/network ]; then mkdir -p $(RemoteProjectDir)include/network; fi;  \cp -f $(RemoteProjectDir)src/utils/*.h $(RemoteProjectDir)include/utils; \cp -f $(RemoteProjectDir)src/disk/*.h $(RemoteProjectDir)include/disk; \cp -f $(RemoteProjectDir)src/cpu/*.h $(RemoteProjectDir)include/cpu; \cp -f $(RemoteProjectDir)src/network/*.h $(RemoteProjectDir)include/network; \cp -f $(RemoteProjectDir)src/memory/*.h $(RemoteProjectDir)include/memory;</Command>
+    </RemotePostBuildEvent>
+    <PostBuildEvent>
+      <Command>mkdir "$(ProjectDir)"..\..\include\utils
+mkdir "$(ProjectDir)"..\..\include\cpu
+mkdir "$(ProjectDir)"..\..\include\disk
+mkdir "$(ProjectDir)"..\..\include\memory
+mkdir "$(ProjectDir)"..\..\include\network
+copy $(ProjectDir)..\..\src\utils\*.h "$(ProjectDir)"..\..\include\utils
+copy $(ProjectDir)..\..\src\cpu\*.h "$(ProjectDir)"..\..\include\cpu
+copy $(ProjectDir)..\..\src\disk\*.h "$(ProjectDir)"..\..\include\disk
+copy $(ProjectDir)..\..\src\memory\*.h "$(ProjectDir)"..\..\include\memory
+copy $(ProjectDir)..\..\src\network\*.h "$(ProjectDir)"..\..\include\network</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

@@ -1,9 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="include">
-      <UniqueIdentifier>{dfa88321-8869-4c44-a639-a936edf53fc3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src">
       <UniqueIdentifier>{d1e106dd-3fd8-4768-b0aa-2cbd84deb58b}</UniqueIdentifier>
     </Filter>
@@ -24,9 +21,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\src\perf.c">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\cpu\cpu.c">
       <Filter>src\cpu</Filter>
     </ClCompile>
@@ -39,17 +33,20 @@
     <ClCompile Include="..\..\src\memory\memory.c">
       <Filter>src\memory</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\utils\os_utils.c">
+    <ClCompile Include="..\..\src\utils\utils.c">
       <Filter>src\utils</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\utils\os_linklist.c">
+    <ClCompile Include="..\..\src\utils\linklist.c">
       <Filter>src\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\utils\err.c">
+      <Filter>src\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\network\route.c">
+      <Filter>src\network</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\include\perf.h">
-      <Filter>include</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\disk\disk.h">
       <Filter>src\disk</Filter>
     </ClInclude>
@@ -62,14 +59,20 @@
     <ClInclude Include="..\..\src\cpu\cpu.h">
       <Filter>src\cpu</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\utils\os_linklist.h">
+    <ClInclude Include="..\..\src\utils\linklist.h">
       <Filter>src\utils</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\utils\os_utils.h">
+    <ClInclude Include="..\..\src\utils\utils.h">
       <Filter>src\utils</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\os_config.h">
-      <Filter>include</Filter>
+    <ClInclude Include="..\..\src\utils\err.h">
+      <Filter>src\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\utils\config.h">
+      <Filter>src\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\network\route.h">
+      <Filter>src\network</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -4,12 +4,10 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-#define OS_NETWORK_MODULE_NAME "network"
-
 // 网络模块初始化
-bool os_network_init();
+bool os_net_init();
 
 // 网络模块销毁
-void os_network_uninit();
+void os_net_uninit();
 
 #endif

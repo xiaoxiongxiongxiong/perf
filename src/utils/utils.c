@@ -1,4 +1,4 @@
-﻿#include "os_utils.h"
+﻿#include "utils.h"
 #include <string.h>
 #include <malloc.h>
 #include <unistd.h>
@@ -61,4 +61,20 @@ char * os_utils_read_file(const char * file, size_t * size)
         *size = total;
 
     return buff;
+}
+
+int os_utils_total_lines(FILE * fp)
+{
+    int lines = 0;
+    if (NULL == fp) {
+        return -1;
+    }
+
+    while (!feof(fp)) {
+        if ('\n' == fgetc(fp))
+            lines++;
+    }
+    fseek(fp, 0, SEEK_SET);
+
+    return lines;
 }

@@ -1,4 +1,4 @@
-﻿#include "os_linklist.h"
+﻿#include "linklist.h"
 #include <malloc.h>
 #include <string.h>
 #include <errno.h>
@@ -92,8 +92,7 @@ bool os_dlist_add(os_dlist_t * os_lst, os_dlist_node_t * os_node, void * data)
     {
         os_lst->head = node;
         os_lst->tail = node;
-    }
-    else
+    } else
     {
         node->prev = os_lst->tail;
         os_lst->tail->next = node;
@@ -118,14 +117,12 @@ bool os_dlist_delete(os_dlist_t * os_lst, os_dlist_node_t * os_node)
             os_lst->tail = NULL;
         else
             os_lst->head->prev = NULL;
-    }
-    else if (os_node == os_lst->tail)
+    } else if (os_node == os_lst->tail)
     {
         os_lst->tail = os_lst->tail->prev;
         if (NULL != os_lst->tail)
             os_lst->tail->next = NULL;
-    }
-    else
+    } else
     {
         os_node->next->prev = os_node->prev;
         os_node->prev->next = os_node->next;
