@@ -34,6 +34,9 @@ typedef struct _os_net_iface_t {
     os_net_info_t info;      // 网口信息
 } os_net_iface_t;
 
+// 根据网口名或者mac地址
+static int os_net_get_mac(const char * iface, char * mac);
+
 // 获取网口信息
 static int os_net_get_iface_info(os_dlist_t ** lst);
 
@@ -97,48 +100,63 @@ void os_net_uninit()
     os_dlist_destroy(&g_net_dev_lst);
 }
 
-int os_net_get_config_info(os_net_ip_config_t ** configs)
+int os_net_get_ip_config_info(os_net_ip_config_t ** configs, size_t * cnt)
 {
     int ret = 0;
+    *cnt = 0;
     struct ifaddrs * if_addr = NULL;
     struct ifaddrs * addr = NULL;
-    os_net_ip_config_t ic = {};
+    os_net_ip_config_t * ic = NULL;
+
+    if (NULL == configs || NULL != *configs || NULL == cnt) {
+        return OS_PERF_ERR_INVALID;
+    }
 
     if (0 != getifaddrs(&if_addr)) {
-        ret = OS_PERF_ERROR(errno);
-        return ret;
+        return OS_PERF_ERROR(errno);
     }
     addr = if_addr;
 
-    while (if_addr) {
-        if (NULL == if_addr->ifa_addr) {
-            if_addr = if_addr->ifa_next;
+    while (addr) {
+        int i = 0;
+        for (i = 0; i < *cnt; ++i) {
+            if (0 == strcmp((*configs)[i].iface, addr->ifa_name))
+                break;
+        }
+        if (i == *cnt) {
+            if (0 != (ret = os_utils_reallocp(configs, (*cnt + 1) * sizeof(os_net_ip_config_t)))) {
+                freeifaddrs(if_addr);
+                break;
+            }
+            strncpy((*configs)[*cnt].iface, addr->ifa_name, OS_NET_INTER_MAX_LEN - 1);
+            os_net_get_mac((*configs)[*cnt].iface, (*configs)[*cnt].mac);
+            (*cnt)++;
+        }
+        ic = &(*configs)[i];
+
+        if (NULL == addr->ifa_addr) {
+            addr = addr->ifa_next;
             continue;
         }
 
-        memset(&ic, 0, sizeof(ic));
-        memcpy(ic.iface, if_addr->ifa_name, OS_NET_IPV4_MAX_LEN);
-        if (AF_INET == if_addr->ifa_addr->sa_family) {
-            void * addr_ptr = &((struct sockaddr_in *)if_addr->ifa_addr)->sin_addr;
+        if (AF_INET == addr->ifa_addr->sa_family) {
+            void * addr_ptr = &((struct sockaddr_in *)addr->ifa_addr)->sin_addr;
             if (addr_ptr)
-                inet_ntop(AF_INET, addr_ptr, ic.ipv4, INET_ADDRSTRLEN);
+                inet_ntop(AF_INET, addr_ptr, ic->ipv4, INET_ADDRSTRLEN);
 
-            void * mask_ptr = &((struct sockaddr_in *)if_addr->ifa_netmask)->sin_addr;
+            void * mask_ptr = &((struct sockaddr_in *)addr->ifa_netmask)->sin_addr;
             if (mask_ptr)
-                inet_ntop(AF_INET, mask_ptr, ic.mask, INET_ADDRSTRLEN);
-            os_net_get_mac(ic.iface, ic.mac);
-            printf("ipv4 iface:%s\tip:%s\tmask:%s\n", ic.iface, ic.ipv4, ic.mask);
-        } else if (if_addr->ifa_addr->sa_family == AF_INET6) {
-            void * addr_ptr = &((struct sockaddr_in6 *)if_addr->ifa_addr)->sin6_addr;
+                inet_ntop(AF_INET, mask_ptr, ic->mask, INET_ADDRSTRLEN);
+        } else if (AF_INET6 == addr->ifa_addr->sa_family) {
+            void * addr_ptr = &((struct sockaddr_in6 *)addr->ifa_addr)->sin6_addr;
             if (addr_ptr)
-                inet_ntop(AF_INET6, addr_ptr, ic.ipv6, INET6_ADDRSTRLEN);
-            printf("ipv6 iface:%s\tip:%s\n", ic.iface, ic.ipv6);
+                inet_ntop(AF_INET6, addr_ptr, ic->ipv6, INET6_ADDRSTRLEN);
         }
-        if_addr = if_addr->ifa_next;
+        addr = addr->ifa_next;
     }
 
-    freeifaddrs(addr);
-    addr = NULL;
+    freeifaddrs(if_addr);
+    if_addr = NULL;
 
     return ret;
 }
@@ -219,7 +237,7 @@ int os_net_get_mac(const char * iface, char * mac)
     strncpy(req.ifr_name, iface, IFNAMSIZ);
     if (0 == ioctl(fd, SIOCGIFHWADDR, &req)) {
         tmp = req.ifr_hwaddr.sa_data;
-        snprintf(mac, OS_NET_IPV4_MAX_LEN, "%02X:%02X:%02X:%02X:%02X:%02X",
+        snprintf(mac, OS_NET_IPV6_MAX_LEN, "%02x:%02x:%02x:%02x:%02x:%02x",
                  tmp[0], tmp[1], tmp[2], tmp[3], tmp[4], tmp[5]);
     } else {
         ret = OS_PERF_ERROR(errno);

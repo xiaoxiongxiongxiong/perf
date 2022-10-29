@@ -42,12 +42,13 @@ int os_net_init();
 void os_net_uninit();
 
 /**
-* os_net_get_config_info
+* os_net_get_ip_config_info
 * @brief   获取网络配置
 * @param   configs  配置表指针
-* @return  >=0--个数 <0--失败
+* @param   cnt      个数指针
+* @return  0成功 <0--失败
 */
-int os_net_get_config_info(os_net_ip_config_t ** configs);
+int os_net_get_ip_config_info(os_net_ip_config_t ** configs, size_t * cnt);
 
 /**
 * os_net_get_dev_info
@@ -67,14 +68,5 @@ int os_net_get_dev_info(os_net_info_t ** devs, size_t * cnt);
 * @return  0成功 <0--失败
 */
 int os_net_get_bandwidth_and_duplex(const char * iface, uint8_t * full, uint16_t * bandwidth);
-
-/**
-* os_net_get_mac
-* @brief   根据网口名称获取mac地址
-* @param   iface   网口名称
-* @param   mac     mac 地址
-* @return  0成功 <0--失败
-*/
-int os_net_get_mac(const char * iface, char * mac);
 
 #endif
