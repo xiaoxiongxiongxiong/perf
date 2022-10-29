@@ -1,12 +1,7 @@
 ﻿#ifndef _OS_PERF_ROUTE_H_
 #define _OS_PERF_ROUTE_H_
 
-#include <stdio.h>
-#include <stdint.h>
-
-#define OS_ROUTE_IPV4_MAX_LEN  16
-#define OS_ROUTE_IPV6_MAX_LEN  46
-#define OS_ROUTE_INTER_MAX_LEN 64
+#include "network.h"
 
 typedef enum _OS_ROUTE_MODE {
     OS_ROUTE_MODE_NONE,
@@ -20,16 +15,16 @@ typedef struct _os_route_into_t {
     int32_t metric;
     int32_t refcnt;
     int32_t use;
-    char flags[OS_ROUTE_IPV4_MAX_LEN];   // flags
-    char iface[OS_ROUTE_INTER_MAX_LEN];  // 网口
-    char mask[OS_ROUTE_IPV4_MAX_LEN];    // 掩码，仅IPV4有
+    char flags[OS_NET_IPV4_MAX_LEN];   // flags
+    char iface[OS_NET_INTER_MAX_LEN];  // 网口
+    char mask[OS_NET_IPV4_MAX_LEN];    // 掩码，仅IPV4有
     union target {
-        char ipv4[OS_ROUTE_IPV4_MAX_LEN];
-        char ipv6[OS_ROUTE_IPV6_MAX_LEN];
+        char ipv4[OS_NET_IPV4_MAX_LEN];
+        char ipv6[OS_NET_IPV6_MAX_LEN];
     } target;
     union gateway {
-        char ipv4[OS_ROUTE_IPV4_MAX_LEN];
-        char ipv6[OS_ROUTE_IPV6_MAX_LEN];
+        char ipv4[OS_NET_IPV4_MAX_LEN];
+        char ipv6[OS_NET_IPV6_MAX_LEN];
     } gateway;
 } os_route_ipv4_info_t, os_route_ipv6_info_t;
 
@@ -66,12 +61,5 @@ int os_route_get_ipv4_list(os_route_ipv4_info_t ** lst);
 * @return  >=0--路由表长度 <0--失败
 */
 int os_route_get_ipv6_list(os_route_ipv6_info_t ** lst);
-
-/**
-* os_route_freep
-* @brief   释放IPV4/6路由表指针
-* @param   ptr      IPV4/6路由表指针
-*/
-void os_route_freep(void * ptr);
 
 #endif

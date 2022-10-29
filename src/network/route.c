@@ -1,4 +1,5 @@
 ﻿#include "route.h"
+#include "utils/config.h"
 #include "utils/err.h"
 #include "utils/linklist.h"
 
@@ -6,13 +7,11 @@
 #include <unistd.h>
 #include <string.h>
 #include <assert.h>
-#include <fcntl.h>
 #include <sys/ioctl.h>
 #include <net/route.h>
 #include <sys/types.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
-#include <ifaddrs.h>
 #ifndef __USE_XOPEN2K
 #define __USE_XOPEN2K
 #endif
@@ -22,9 +21,6 @@
 #define __USE_MISC
 #endif
 #include <net/if.h>
-
-#define OS_ROUTE_IPV4_FILE "/proc/net/route"
-#define OS_ROUTE_IPV6_FILE "/proc/net/ipv6_route"
 
 static void os_route_flag(uint32_t flag, char * data);
 static char * os_route_ipv6_destination(const char * target, char * dst);
@@ -211,7 +207,7 @@ int os_route_get_ipv4_list(os_route_ipv4_info_t ** lst)
     uint32_t netmask = 0;
     uint32_t flag = 0;
 
-    FILE * fp = fopen(OS_ROUTE_IPV4_FILE, "rb");
+    FILE * fp = fopen(OS_PERF_ROUTE_IPV4_PATH, "rb");
     if (NULL == fp) {
         ret = OS_PERF_ERROR(errno);
         goto end;
@@ -229,7 +225,7 @@ int os_route_get_ipv4_list(os_route_ipv4_info_t ** lst)
 
         memset(&route, 0, sizeof(os_route_ipv4_info_t));
         if (8 != sscanf(buff, "%16s\t%081X\t%081X\t%041X\t%d\t%d\t%d\t%081X\t%*d\t%*d\t%*d", &route.iface,
-            &target, &gateway, &flag, &route.refcnt, &route.use, &route.metric, &netmask)) {
+                        &target, &gateway, &flag, &route.refcnt, &route.use, &route.metric, &netmask)) {
             continue;
         }
 
@@ -288,7 +284,7 @@ int os_route_get_ipv6_list(os_route_ipv6_info_t ** lst)
     char tmp[INET6_ADDRSTRLEN] = {};
     char target[INET6_ADDRSTRLEN] = {};
 
-    FILE * fp = fopen(OS_ROUTE_IPV6_FILE, "rb");
+    FILE * fp = fopen(OS_PERF_ROUTE_IPV6_PATH, "rb");
     if (NULL == fp) {
         ret = OS_PERF_ERROR(errno);
         goto end;
@@ -304,13 +300,13 @@ int os_route_get_ipv6_list(os_route_ipv6_info_t ** lst)
         memset(tmp, 0, 40);
         memset(&route, 0, sizeof(os_route_ipv6_info_t));
         if (7 != sscanf(buff, "%32s\t%021X\t%*0321X\t%*021X\t%*0321X\t%081X\t%081X\t%081X\t%081X\t%16s",
-            &target, &prefix_len, &route.metric, &route.refcnt, &route.use, &flag, &route.iface)) {
+                        &target, &prefix_len, &route.metric, &route.refcnt, &route.use, &flag, &route.iface)) {
             continue;
         }
 
         os_route_flag(flag, route.flags);
         os_route_ipv6_destination(target, tmp);
-        snprintf(route.target.ipv6, OS_ROUTE_IPV6_MAX_LEN, "%s/%u", tmp, prefix_len);
+        snprintf(route.target.ipv6, OS_NET_IPV6_MAX_LEN, "%s/%u", tmp, prefix_len);
         os_dlist_add(cache, NULL, &route);
         memset(buff, 0, 1024);
     }
@@ -348,15 +344,6 @@ end:
         os_dlist_destroy(&cache);
     }
     return ret;
-}
-
-void os_route_freep(void * ptr)
-{
-    void * val;
-
-    memcpy(&val, ptr, sizeof(val));
-    memcpy(ptr, &(void *){ NULL }, sizeof(val));
-    free(val);
 }
 
 void os_route_flag(const uint32_t flag, char * data)

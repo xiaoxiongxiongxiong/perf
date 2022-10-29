@@ -12,8 +12,12 @@
 
 #define OS_PERF_ERROR_MAX 260   // 错误信息最大长度
 #define OS_PERF_BUFF_MAX  4096  // 缓冲区最大长度
+#define OS_PERF_LINE_MAX  1024  // 每行最大长度
 #define OS_PROC_PATH_MAX  64    // /proc路径最大长度
 
+#define OS_PERF_NET_DEV_PATH    "/proc/net/dev"
+#define OS_PERF_ROUTE_IPV4_PATH "/proc/net/route"
+#define OS_PERF_ROUTE_IPV6_PATH "/proc/net/ipv6_route"
 #define OS_PERF_MEMINFO_PATH    "/proc/meminfo"
 #define OS_PERF_PARTITIONS_PATH "/proc/partitions"
 #define OS_PERF_DISKSTATS_PATH  "/proc/diskstats"

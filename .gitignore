@@ -16,5 +16,6 @@ out/
 obj/
 lib/
 bin/
+include/
 project/vs/readme/
 CMakeSettings.json
