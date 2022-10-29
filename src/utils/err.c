@@ -5,7 +5,7 @@
 
 struct os_err_t {
     int code;
-    const char* str;
+    const char * str;
 };
 
 static const struct os_err_t os_errs[] = {
@@ -45,12 +45,13 @@ static const struct os_err_t os_errs[] = {
     {OS_PERF_ERROR(ERANGE),  "Math result not representable"},
     {OS_PERF_ERR_NULLPTR,    "Param is nullptr"},
     {OS_PERF_ERR_INVALID,    "Invalid data"},
+    {OS_PERF_ERR_NOREADY,    "Not initialized"},
 };
 
-int os_perf_make_error_string(int code, char* buf, const size_t size)
+int os_perf_make_error_string(int code, char * buf, const size_t size)
 {
     int ret = 0, i;
-    const struct os_err_t* entry = NULL;
+    const struct os_err_t * entry = NULL;
 
     for (i = 0; i < OS_PERF_ARRAY_ELEMS(os_errs); i++) {
         if (code == os_errs[i].code) {

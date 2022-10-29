@@ -10,9 +10,10 @@
 
 #define OS_PERF_ERR_NULLPTR OS_PERF_MKTAG('N','U','L','L')
 #define OS_PERF_ERR_INVALID OS_PERF_MKTAG('I','V','D','A')
+#define OS_PERF_ERR_NOREADY OS_PERF_MKTAG('N','R','D','Y')
 
 #define OS_PERF_ERROR_MAX_SIZE 64 // 错误信息最大长度
 
-int os_perf_make_error_string(int code, char* buf, size_t size);
+int os_perf_make_error_string(int code, char * buf, size_t size);
 
 #endif

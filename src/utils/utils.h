@@ -4,10 +4,28 @@
 #include <stdio.h>
 #include <stdint.h>
 
-// 读取文件内容
-char * os_utils_read_file(const char * file, size_t * size);
+/**
+* os_utils_q2d
+* @brief  获取商
+* @param  num 分子
+* @param  den 分母
+* @return 商
+*/
+double os_utils_q2d(int64_t num, int64_t den);
 
-// 获取文件行数
-int os_utils_total_lines(FILE * fp);
+/**
+* @brief  重申清内存
+* @param  ptr  指针
+* @param  size 内存大小
+* @return 0-成功 < 0 错误码
+*/
+int os_utils_reallocp(void * ptr, size_t size);
+
+/**
+* os_utils_freep
+* @brief   释放指针
+* @param   ptr      待释放指针
+*/
+void os_utils_freep(void * ptr);
 
 #endif

@@ -1,80 +1,39 @@
 ﻿#include "utils.h"
+#include "err.h"
 #include <string.h>
 #include <malloc.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
 
-#define OS_UTILS_CACHE_MAX 4096  // 缓冲最大长度
-
-char * os_utils_read_file(const char * file, size_t * size)
+double os_utils_q2d(int64_t num, int64_t den)
 {
-    if (NULL == file)
-        return NULL;
-
-    int fd = open(file, O_RDONLY);
-    if (fd < 0)
-    {
-        return NULL;
-    }
-
-    char * buff = (char *)malloc(OS_UTILS_CACHE_MAX);
-    if (NULL == buff)
-    {
-        close(fd);
-        return NULL;
-    }
-    memset(buff, 0, OS_UTILS_CACHE_MAX);
-
-    char cache[OS_UTILS_CACHE_MAX] = { 0 };
-    ssize_t bytes = 0;
-    size_t total = 0;
-    do
-    {
-        bytes = read(fd, cache, OS_UTILS_CACHE_MAX);
-        if (bytes <= 0)
-            break;
-
-        const size_t len = (size_t)bytes;
-        total += len;
-        if (bytes < OS_UTILS_CACHE_MAX && total == len)
-        {
-            memcpy(buff, cache, len);
-            break;
-        }
-
-        char * ptr = (char *)realloc(buff, total + 1);
-        if (NULL == ptr)
-        {
-            free(buff);
-            close(fd);
-            return NULL;
-        }
-        buff = ptr;
-        strncat(buff, cache, len);
-        buff[total] = '\0';
-    } while (bytes > 0);
-
-    close(fd);
-    if (size)
-        *size = total;
-
-    return buff;
+    return (double)num / (double)den;
 }
 
-int os_utils_total_lines(FILE * fp)
+void os_utils_freep(void * ptr)
 {
-    int lines = 0;
-    if (NULL == fp) {
-        return -1;
+    void * val;
+
+    memcpy(&val, ptr, sizeof(val));
+    memcpy(ptr, &(void *){ NULL }, sizeof(val));
+    free(val);
+}
+
+int os_utils_reallocp(void * ptr, size_t size)
+{
+    void * val;
+
+    if (!size) {
+        os_utils_freep(ptr);
+        return 0;
     }
 
-    while (!feof(fp)) {
-        if ('\n' == fgetc(fp))
-            lines++;
-    }
-    fseek(fp, 0, SEEK_SET);
+    memcpy(&val, ptr, sizeof(val));
+    val = realloc(val, size);
 
-    return lines;
+    if (!val) {
+        os_utils_freep(ptr);
+        return OS_PERF_ERROR(ENOMEM);
+    }
+
+    memcpy(ptr, &val, sizeof(val));
+    return 0;
 }
