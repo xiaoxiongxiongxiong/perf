@@ -2,7 +2,6 @@
 #define _OS_PERF_MEMORY_H_
 
 #include <stdio.h>
-#include <stdbool.h>
 #include <stdint.h>
 
 // 系统内存信息

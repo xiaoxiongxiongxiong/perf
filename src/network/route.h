@@ -50,16 +50,18 @@ int os_route_ipv6_ctrl(const os_route_ipv6_info_t * params, int add);
 * os_route_get_ipv4_list
 * @brief   获取IPV4路由表
 * @param   lst      IPV4路由表指针
-* @return  >=0--路由表长度 <0--失败
+* @param   num      路由表长度
+* @return  >=0--成功 <0--失败
 */
-int os_route_get_ipv4_list(os_route_ipv4_info_t ** lst);
+int os_route_get_ipv4_list(os_route_ipv4_info_t ** lst, size_t * num);
 
 /**
 * os_route_get_ipv6_list
 * @brief   获取IPV6路由表
 * @param   lst      IPV6路由表指针
+* @param   num      路由表长度
 * @return  >=0--路由表长度 <0--失败
 */
-int os_route_get_ipv6_list(os_route_ipv6_info_t ** lst);
+int os_route_get_ipv6_list(os_route_ipv6_info_t ** lst, size_t * num);
 
 #endif

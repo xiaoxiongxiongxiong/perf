@@ -196,12 +196,11 @@ end:
     return ret;
 }
 
-int os_route_get_ipv4_list(os_route_ipv4_info_t ** lst)
+int os_route_get_ipv4_list(os_route_ipv4_info_t ** lst, size_t * num)
 {
-    int ret = -1;
+    int ret = 0;
+    size_t cnt = 2UL;
     char buff[1024] = {};
-    os_route_ipv4_info_t route = {};
-    os_dlist_t * cache = NULL;
     uint32_t target = 0;
     uint32_t gateway = 0;
     uint32_t netmask = 0;
@@ -213,8 +212,7 @@ int os_route_get_ipv4_list(os_route_ipv4_info_t ** lst)
         goto end;
     }
 
-    cache = os_dlist_create(sizeof(os_route_ipv4_info_t));
-    if (NULL == cache) {
+    if (NULL == (*lst = (os_route_ipv4_info_t *)calloc(cnt, sizeof(os_route_ipv4_info_t)))) {
         ret = OS_PERF_ERROR(errno);
         goto end;
     }
@@ -223,41 +221,23 @@ int os_route_get_ipv4_list(os_route_ipv4_info_t ** lst)
         if (0 == strncmp(buff, "Iface", 5) || '\0' == buff)
             continue;
 
-        memset(&route, 0, sizeof(os_route_ipv4_info_t));
-        if (8 != sscanf(buff, "%16s\t%081X\t%081X\t%041X\t%d\t%d\t%d\t%081X\t%*d\t%*d\t%*d", &route.iface,
-                        &target, &gateway, &flag, &route.refcnt, &route.use, &route.metric, &netmask)) {
+        if (*num + 1UL > cnt) {
+            cnt += 2UL;
+            if (0 != (ret = os_utils_reallocp(lst, cnt * sizeof(os_route_ipv4_info_t))))
+                goto end;
+        }
+
+        if (8 != sscanf(buff, "%16s\t%081X\t%081X\t%041X\t%d\t%d\t%d\t%081X\t%*d\t%*d\t%*d",
+                        &(*lst)[*num].iface, &target, &gateway, &flag, &(*lst)[*num].refcnt,
+                        &(*lst)[*num].use, &(*lst)[*num].metric, &netmask)) {
             continue;
         }
 
-        inet_ntop(AF_INET, (void *)&gateway, route.gateway.ipv4, INET_ADDRSTRLEN);
-        inet_ntop(AF_INET, (void *)&target, route.target.ipv4, INET_ADDRSTRLEN);
-        inet_ntop(AF_INET, (void *)&netmask, route.mask, INET_ADDRSTRLEN);
-        os_route_flag(flag, route.flags);
-        os_dlist_add(cache, NULL, &route);
-        memset(buff, 0, 1024);
-    }
-
-    fclose(fp);
-    fp = NULL;
-
-    ret = (int)os_dlist_size(cache);
-    if (ret < 1) {
-        os_dlist_destroy(&cache);
-        return ret;
-    }
-
-    *lst = (os_route_ipv4_info_t *)calloc((size_t)ret, sizeof(os_route_ipv4_info_t));
-    if (NULL == *lst) {
-        ret = OS_PERF_ERROR(errno);
-        goto end;
-    }
-
-    os_dlist_node_t * head = os_dlist_head(cache);
-    os_route_ipv4_info_t * data = (os_route_ipv4_info_t *)os_dlist_getdata(head);
-    for (int i = 0; i < ret; ++i) {
-        memcpy(&(*lst)[i], data, sizeof(os_route_ipv4_info_t));
-        head = os_dlist_next(head);
-        data = (os_route_ipv4_info_t *)os_dlist_getdata(head);
+        inet_ntop(AF_INET, (void *)&gateway, (*lst)[*num].gateway.ipv4, INET_ADDRSTRLEN);
+        inet_ntop(AF_INET, (void *)&target, (*lst)[*num].target.ipv4, INET_ADDRSTRLEN);
+        inet_ntop(AF_INET, (void *)&netmask, (*lst)[*num].mask, INET_ADDRSTRLEN);
+        os_route_flag(flag, (*lst)[*num].flags);
+        ++(*num);
     }
 
 end:
@@ -266,19 +246,14 @@ end:
         fp = NULL;
     }
 
-    if (NULL != cache) {
-        os_dlist_destroy(&cache);
-    }
-
     return ret;
 }
 
-int os_route_get_ipv6_list(os_route_ipv6_info_t ** lst)
+int os_route_get_ipv6_list(os_route_ipv6_info_t ** lst, size_t * num)
 {
     int ret = -1;
+    size_t cnt = 2UL;
     char buff[1024] = {};
-    os_route_ipv6_info_t route = {};
-    os_dlist_t * cache = NULL;
     uint32_t prefix_len = 0;
     uint32_t flag = 0;
     char tmp[INET6_ADDRSTRLEN] = {};
@@ -290,48 +265,31 @@ int os_route_get_ipv6_list(os_route_ipv6_info_t ** lst)
         goto end;
     }
 
-    cache = os_dlist_create(sizeof(os_route_ipv6_info_t));
-    if (NULL == cache) {
+    if (NULL == (*lst = (os_route_ipv6_info_t *)calloc(cnt, sizeof(os_route_ipv6_info_t)))) {
         ret = OS_PERF_ERROR(errno);
         goto end;
     }
 
     while (!feof(fp) && fgets(buff, 1023, fp)) {
         memset(tmp, 0, 40);
-        memset(&route, 0, sizeof(os_route_ipv6_info_t));
+
+        if (*num + 1UL > cnt) {
+            cnt += 2UL;
+            if (0 != (ret = os_utils_reallocp(lst, cnt * sizeof(os_route_ipv6_info_t))))
+                goto end;
+        }
+
         if (7 != sscanf(buff, "%32s\t%021X\t%*0321X\t%*021X\t%*0321X\t%081X\t%081X\t%081X\t%081X\t%16s",
-                        &target, &prefix_len, &route.metric, &route.refcnt, &route.use, &flag, &route.iface)) {
+                        &target, &prefix_len, &(*lst)[*num].metric, &(*lst)[*num].refcnt,
+                        &(*lst)[*num].use, &flag, &(*lst)[*num].iface)) {
             continue;
         }
 
-        os_route_flag(flag, route.flags);
+        os_route_flag(flag, (*lst)[*num].flags);
         os_route_ipv6_destination(target, tmp);
-        snprintf(route.target.ipv6, OS_NET_IPV6_MAX_LEN, "%s/%u", tmp, prefix_len);
-        os_dlist_add(cache, NULL, &route);
+        snprintf((*lst)[*num].target.ipv6, OS_NET_IPV6_MAX_LEN, "%s/%u", tmp, prefix_len);
         memset(buff, 0, 1024);
-    }
-
-    fclose(fp);
-    fp = NULL;
-
-    ret = (int)os_dlist_size(cache);
-    if (ret < 1) {
-        os_dlist_destroy(&cache);
-        return ret;
-    }
-
-    *lst = (os_route_ipv6_info_t *)calloc((size_t)ret, sizeof(os_route_ipv6_info_t));
-    if (NULL == *lst) {
-        ret = OS_PERF_ERROR(errno);
-        goto end;
-    }
-
-    os_dlist_node_t * head = os_dlist_head(cache);
-    os_route_ipv6_info_t * data = (os_route_ipv6_info_t *)os_dlist_getdata(head);
-    for (int i = 0; i < ret; ++i) {
-        memcpy(&(*lst)[i], data, sizeof(os_route_ipv6_info_t));
-        head = os_dlist_next(head);
-        data = (os_route_ipv6_info_t *)os_dlist_getdata(head);
+        ++(*num);
     }
 
 end:
@@ -340,9 +298,6 @@ end:
         fp = NULL;
     }
 
-    if (NULL != cache) {
-        os_dlist_destroy(&cache);
-    }
     return ret;
 }
 
